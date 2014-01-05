@@ -6,18 +6,21 @@ package Battleships;
  */
 import java.util.Random;
 
+import com.battleship.model.AttackGrid;
+import com.battleship.model.HomeGrid;
+
 public class Agent
 {
 	private InfluenceMap m = null;
-	private Grid g = null;
+	private AttackGrid g = null;
 	private int i=-1;
 	private int j=-1;
 	private Random generator;
 	
-	public void Agent()
+	public Agent()
 	{
 		m = new InfluenceMap();		
-		g= new Grid(10,10);
+		g= new AttackGrid(10,10);
 	}
 	
 	
@@ -53,7 +56,7 @@ public class Agent
 		return m;
 	}
 	
-	public void nextShot(InfluenceMap m1, Grid Attackgrid)
+	public void nextShot(InfluenceMap m1, AttackGrid Attackgrid)
 	{
 		m = m1;
 		
@@ -161,59 +164,58 @@ public class Agent
 		
 	}
 	
-		public Grid placeShips()
-	{
+	public HomeGrid placeShips() {
 		//boolean
-		g= new Grid(10,10);
+		HomeGrid g= new HomeGrid(10,10);
 		
 		while(!g.allShipsPlaced())
 		{
-		NumberGenerator gen = new NumberGenerator();
-		int x = gen.rand(10);
-		int y = gen.rand(10);
-		int o = gen.rand(1);
-				
-		x = gen.rand(10);
-		y = gen.rand(10);
-		o = gen.rand(2);		
-		System.out.println("vertical sub x = " + x + "\n");
-		System.out.println("vertical sub y = " + y + "\n");
-		g.addSub(x,y, o);
+			NumberGenerator gen = new NumberGenerator();
+			int x = gen.rand(10);
+			int y = gen.rand(10);
+			int o = gen.rand(1);
+					
+			x = gen.rand(10);
+			y = gen.rand(10);
+			o = gen.rand(2);
+			System.out.println("vertical sub x = " + x + "\n");
+			System.out.println("vertical sub y = " + y + "\n");
+			g.addSubmarine(x,y, (o == 0));
+			
+			x = gen.rand(10);
+			y = gen.rand(10);
+			o = gen.rand(2);		
+			System.out.println("vertical battle x = " + x + "\n");
+			System.out.println("vertical battle y = " + y + "\n");
+			g.addBattleship(x,y, (o == 0));
 		
-		x = gen.rand(10);
-		y = gen.rand(10);
-		o = gen.rand(2);		
-		System.out.println("vertical battle x = " + x + "\n");
-		System.out.println("vertical battle y = " + y + "\n");
-		g.addBattle(x,y, o);	
+			x = gen.rand(10);
+			y = gen.rand(10);
+			o = gen.rand(2);				
+			System.out.println("vertical air x = " + x + "\n");
+			System.out.println("vertical air y = " + y + "\n");
+			g.addAircraftCarrier(x,y, (o == 0));
+			
+			x = gen.rand(10);
+			y = gen.rand(10);
+			o = gen.rand(2);				
+			System.out.println("vertical mine x = " + x + "\n");
+			System.out.println("vertical mine y = " + y + "\n");
+			g.addMinesweeper(x,y, (o == 0));
 	
-		x = gen.rand(10);
-		y = gen.rand(10);
-		o = gen.rand(2);				
-		System.out.println("vertical air x = " + x + "\n");
-		System.out.println("vertical air y = " + y + "\n");
-		g.addAir(x,y, o);
-		
-		x = gen.rand(10);
-		y = gen.rand(10);
-		o = gen.rand(2);				
-		System.out.println("vertical mine x = " + x + "\n");
-		System.out.println("vertical mine y = " + y + "\n");
-		g.addMine(x,y, o);
+			x = gen.rand(10);
+			y = gen.rand(10);
+			o = gen.rand(2);
+			System.out.println("horizontal dest x = " + x + "\n");
+			System.out.println("horizontal dest y = " + y + "\n");
+			g.addDestroyer(x,y, (o == 0));
 
-		x = gen.rand(10);
-		y = gen.rand(10);
-		o = gen.rand(2);
-		System.out.println("horizontal dest x = " + x + "\n");
-		System.out.println("horizontal dest y = " + y + "\n");
-		g.addDest(x,y, o);
-
-	}
+		}
 		
 		System.out.println("agent grid");
 		System.out.println(g.toString());
 		
-	return g;
+		return g;
 	}
 	
 	public InfluenceMap getMap()

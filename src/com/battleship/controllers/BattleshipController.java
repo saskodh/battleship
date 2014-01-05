@@ -31,7 +31,7 @@ public class BattleshipController {
 				case 1: flag = model.placeDestroyer(p, isHorizontal); break;
 				case 2: flag = model.placeSubmarine(p, isHorizontal); break;
 				case 3: flag = model.placeMinesweeper(p, isHorizontal); break;
-				case 4: flag = model.placeAircraft(p, isHorizontal);
+				case 4: flag = model.placeAircraft(p, isHorizontal); break;
 			}
 			
 			if(flag)
