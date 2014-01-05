@@ -4,7 +4,6 @@ Instructions to draw a Horzonatal Battleship on the screen.
 */
 	
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class BattleshipH 
 {

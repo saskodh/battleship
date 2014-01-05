@@ -12,6 +12,8 @@ import java.awt.*;
 
 public class GridPanel extends JPanel
 {
+	private static final long serialVersionUID = -7327054840607289378L;
+
 	public void paintComponent(Graphics g)
 	{
 		this.setSize(200,200);

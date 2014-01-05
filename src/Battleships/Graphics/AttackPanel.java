@@ -7,13 +7,13 @@ package Battleships.Graphics;
 
 import javax.swing.*;
 
-
 import java.awt.*;
-import java.awt.event.*;
 
 public class AttackPanel extends JPanel 
 {
-/*	
+	private static final long serialVersionUID = 5334179014037185606L;
+
+	/*	
 	public void AttackPanel()
 	{
 	Graphics g = getGraphics();

@@ -1,8 +1,8 @@
 package Battleships.Ships;
 
 public class ShipCreator {
-	public static MyShip createAircraftCarrier(){
-		MyShip ship = new MyShip();
+	public static Ship createAircraftCarrier(){
+		Ship ship = new Ship();
 		
 		ship.setName("Aircraft Carrier");
 		ship.setGridValue(5);
@@ -12,8 +12,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static MyShip createBattleship(){
-		MyShip ship = new MyShip();
+	public static Ship createBattleship(){
+		Ship ship = new Ship();
 		
 		ship.setName("Battleship");
 		ship.setGridValue(4);
@@ -23,8 +23,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static MyShip createDestroyer(){
-		MyShip ship = new MyShip();
+	public static Ship createDestroyer(){
+		Ship ship = new Ship();
 		
 		ship.setName("Destroyer");
 		ship.setGridValue(7);
@@ -34,8 +34,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static MyShip createMinesweeper(){
-		MyShip ship = new MyShip();
+	public static Ship createMinesweeper(){
+		Ship ship = new Ship();
 		
 		ship.setName("Minesweeper");
 		ship.setGridValue(2);
@@ -45,8 +45,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static MyShip createSubmarine(){
-		MyShip ship = new MyShip();
+	public static Ship createSubmarine(){
+		Ship ship = new Ship();
 		
 		ship.setName("Submarine");
 		ship.setGridValue(3);

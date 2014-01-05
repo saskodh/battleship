@@ -5,7 +5,6 @@ import java.awt.Point;
 import com.battleships.views.BattleshipView;
 
 import Battleships.Agent;
-import Battleships.Grid;
 import Battleships.InfluenceMap;
 
 public class BattleshipModel {
@@ -146,45 +145,6 @@ public class BattleshipModel {
 		if(state == GameState.AGENT_TURN && agent != null){
 			autoAgentTurn();
 		}
-		
-//		
-//		int sqr = playerAttackGrid.getGridVal(position.x, position.y);
-//		String out ="";
-//
-//		//if 0 then it isn't clicked yet
-//		if (sqr == 0)
-//		{
-//			boolean isHit = agentHomeGrid.shot(position.x, position.y);			
-//	
-//			if(isHit)	{
-//				playerAttackGrid.update(position.x, position.y, 9);
-//				view.showUserMessage("HIT! Have Another Turn!");				
-//				
-//				checkPlayerWon();
-//			} else {
-//				agentHomeGrid.update(position.x, position.y, 1);
-//				playerAttackGrid.set(position.x, position.y, 1);
-//				view.showUserMessage("Miss. Agent's Turn");
-//				//TODO: set Agent turn
-//				out="Miss!";
-//				
-//				state = GameState.AGENT_TURN;
-//			}
-//			
-//			view.placeAttackMove(position, isHit);
-//		}
-//	
-//		//setShipSunkStates();
-//		
-//		//TODO: print state
-//		out = out + "CompHome " +agentHomeGrid.toString();
-//		out = out + "player Attack = \n" + playerAttackGrid.toString();
-//		
-//		System.out.println(state);
-//		
-//		if(state == GameState.AGENT_TURN && agent != null){
-//			autoAgentTurn();
-//		}
 	}
 	
 	public void acceptAgentShot(Point pos){
@@ -216,47 +176,6 @@ public class BattleshipModel {
 		if(state == GameState.AGENT_TURN && agent != null){
 			autoAgentTurn();
 		}
-		
-//		int sqrVal = playerHomeGrid.getGridVal(position.x, position.y);
-//		
-//		if(sqrVal < 0 || sqrVal==1)
-//		{
-//			System.out.println("Shot already taken! Have another go"); 
-//		}
-//			
-//		System.out.println(playerHomeGrid.shot(position.x, position.y));
-//		if(sqrVal == 0)
-//		{
-//			agentAttackGrid.update(position.x, position.y, 1);
-//			influenceMap.miss(position.x, position.y);
-//			
-//			view.placeHomeMove(position, false);
-//			view.showUserMessage("Agent Has Missed. Player's Turn");
-//			
-//			state = GameState.PLAYER_TURN;
-//			view.showUserMessage("Player turn, take a shot");
-//		}
-//		
-//		if(sqrVal > 1)
-//		{
-//			agentAttackGrid.update(position.x, position.y, 8);
-//			influenceMap.hit(position.x, position.y);
-//			
-//			view.placeHomeMove(position, true);
-//			view.showUserMessage("Agent has hit");
-//			
-//			checkAgentWon();
-//		}
-//		
-//		view.updateInfluenceMap(influenceMap);
-//		
-//		if(state == GameState.AGENT_TURN && agent != null){
-//			autoAgentTurn();
-//		}
-//		
-//		System.out.println("compAtt");						
-//		System.out.println(agentAttackGrid.toString());
-//		System.out.println(state);
 	}
 
 	private void autoAgentTurn(){

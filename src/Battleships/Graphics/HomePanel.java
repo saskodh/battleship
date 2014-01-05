@@ -12,6 +12,8 @@ import java.awt.*;
 
 public class HomePanel extends JPanel
 {
+	private static final long serialVersionUID = -500488429221846360L;
+
 	public void paintComponent(Graphics g)
 	{
 		this.setSize(200,200);

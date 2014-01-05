@@ -1,7 +1,5 @@
 package Battleships;
 
-import javax.sound.midi.ControllerEventListener;
-
 import com.battleship.controllers.BattleshipController;
 import com.battleships.views.BattleshipView;
 

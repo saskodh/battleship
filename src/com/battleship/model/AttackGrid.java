@@ -1,6 +1,6 @@
 package com.battleship.model;
 
-public class AttackGrid extends MyGrid{
+public class AttackGrid extends Grid{
 	
 	private final int HIT = 9;
 	private final int MISS = 1;

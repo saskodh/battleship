@@ -1,21 +1,21 @@
 package com.battleship.model;
 
-import Battleships.Ships.MyShip;
+import Battleships.Ships.Ship;
 import Battleships.Ships.ShipCreator;
 
-public class HomeGrid extends MyGrid{
+public class HomeGrid extends Grid{
 	
-    private MyShip minesweeper;
-    private MyShip submarine;
-    private MyShip destroyer;
-    private MyShip battleship;
-    private MyShip aircraftCarrier;
+    private Ship minesweeper;
+    private Ship submarine;
+    private Ship destroyer;
+    private Ship battleship;
+    private Ship aircraftCarrier;
     
 	public HomeGrid(int rows, int cols) {
 		super(rows, cols);
 	}
 	
-    private boolean isValidPlaceForAShip(int row, int column, MyShip ship) {
+    private boolean isValidPlaceForAShip(int row, int column, Ship ship) {
     	boolean valid = true;
     	int i = row;
     	int j = column;
@@ -38,7 +38,7 @@ public class HomeGrid extends MyGrid{
     	return (board[i][j] == 0);
     }
     
-    private void placeShip(int row, int col, MyShip ship){
+    private void placeShip(int row, int col, Ship ship){
     	int i = row;
     	int j = col;
     	
@@ -84,7 +84,7 @@ public class HomeGrid extends MyGrid{
     	if(minesweeper != null)
     		return false;
     	
-    	MyShip mine = ShipCreator.createMinesweeper();
+    	Ship mine = ShipCreator.createMinesweeper();
     	if(isHorizontal)
     		mine.setHorizontalOrientation();
     	else
@@ -103,7 +103,7 @@ public class HomeGrid extends MyGrid{
     	if(aircraftCarrier != null)
     		return false;
     	
-    	MyShip ship = ShipCreator.createAircraftCarrier();
+    	Ship ship = ShipCreator.createAircraftCarrier();
     	if(isHorizontal)
     		ship.setHorizontalOrientation();
     	else
@@ -122,7 +122,7 @@ public class HomeGrid extends MyGrid{
     	if(submarine != null)
     		return false;
     	
-    	MyShip ship = ShipCreator.createSubmarine();
+    	Ship ship = ShipCreator.createSubmarine();
     	if(isHorizontal)
     		ship.setHorizontalOrientation();
     	else
@@ -141,7 +141,7 @@ public class HomeGrid extends MyGrid{
     	if(destroyer != null)
     		return false;
     	
-    	MyShip ship = ShipCreator.createDestroyer();
+    	Ship ship = ShipCreator.createDestroyer();
     	if(isHorizontal)
     		ship.setHorizontalOrientation();
     	else
@@ -160,7 +160,7 @@ public class HomeGrid extends MyGrid{
     	if(battleship != null)
     		return false;
     	
-    	MyShip ship = ShipCreator.createBattleship();
+    	Ship ship = ShipCreator.createBattleship();
     	if(isHorizontal)
     		ship.setHorizontalOrientation();
     	else

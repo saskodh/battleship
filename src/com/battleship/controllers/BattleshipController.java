@@ -26,12 +26,12 @@ public class BattleshipController {
 	public void homeGridTurn(Point p, boolean isHorizontal){
 		if(model.getState() == GameState.DEPLOY){
 			boolean flag = false;
-			switch(playerShipsPlaced){
-				case 0: flag = model.placeBattleship(p, isHorizontal); break;
-				case 1: flag = model.placeDestroyer(p, isHorizontal); break;
-				case 2: flag = model.placeSubmarine(p, isHorizontal); break;
-				case 3: flag = model.placeMinesweeper(p, isHorizontal); break;
-				case 4: flag = model.placeAircraft(p, isHorizontal); break;
+			switch(playerShipsPlaced) {
+				case 0: flag = model.placeAircraft(p, isHorizontal); break;
+				case 1: flag = model.placeBattleship(p, isHorizontal); break;
+				case 2: flag = model.placeDestroyer(p, isHorizontal); break;
+				case 3: flag = model.placeSubmarine(p, isHorizontal); break;
+				case 4: flag = model.placeMinesweeper(p, isHorizontal); break;
 			}
 			
 			if(flag)

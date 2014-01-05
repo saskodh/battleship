@@ -11,29 +11,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import com.battleship.controllers.BattleshipController;
 
-import Battleships.Grid;
 import Battleships.InfluenceMap;
 import Battleships.Graphics.AircraftCarrier;
 import Battleships.Graphics.AircraftCarrierH;
@@ -53,7 +34,8 @@ import Battleships.Graphics.Submarine;
 import Battleships.Graphics.SubmarineH;
 
 
-public class BattleshipView extends JFrame implements IBattlesshipView{
+public class BattleshipView extends JFrame implements IBattlesshipView {
+	private static final long serialVersionUID = -2456927572516369821L;
 	
 	private boolean isHorizontal;
 	private boolean showInfluenceMap;
@@ -83,17 +65,17 @@ public class BattleshipView extends JFrame implements IBattlesshipView{
 		txtUserMessage.setText(message);
 	}
 
-	@Override
-	public void updatePlayerAttackGrid(Grid grid) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updatePlayerHomeGrid(Grid grid) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void updatePlayerAttackGrid(Grid grid) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void updatePlayerHomeGrid(Grid grid) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void updateInfluenceMap(InfluenceMap map) {
@@ -250,7 +232,7 @@ public class BattleshipView extends JFrame implements IBattlesshipView{
 		
 		JButton NewButton = new JButton("New Game");
 		topShipPanel.add(NewButton);
-	//	NewButton.addMouseListener(new NewButtonAction(this));
+		NewButton.addMouseListener(new NewButtonAction(this));
 		
 		JButton hideButton = new JButton("Hide Influence Map");
 		topShipPanel.add(hideButton);
@@ -402,7 +384,10 @@ public class BattleshipView extends JFrame implements IBattlesshipView{
 	}
 	
 	public void newGame(){
+		System.out.println("New Game is started!");
 		initView();
+		isHorizontal = true;
+		showInfluenceMap = true;
 		controller.newGame();
 	}
 	

@@ -7,13 +7,12 @@ package Battleships.Graphics;
 
 import javax.swing.*;
 
-import Battleships.InfluenceMap;
-
 import java.awt.*;
 
 public class InfluencePanel extends JPanel
 {
-	private InfluenceMap m;
+	private static final long serialVersionUID = -2456854223044738296L;
+
 	/*
 	public InfluencePanel(InfluenceMap map)
 	{
