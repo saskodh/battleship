@@ -143,9 +143,9 @@ public class Agent
 			}				
 		}
 		
-//		if(hotSpots.size() == 1){
-//			return new Point(hotSpots.get(0).x, hotSpots.get(0).y);
-//		}
+		if(hotSpots.size() == 1){
+			return new Point(hotSpots.get(0).x, hotSpots.get(0).y);
+		}
 		
 		if(!flag)
 			System.out.println("New position choosen random");
@@ -164,7 +164,7 @@ public class Agent
 	}
 
 	
-	public static HomeGrid placeShips() {
+	public HomeGrid placeShips() {
 		//boolean
 		HomeGrid g= new HomeGrid(10,10);
 		
@@ -180,36 +180,35 @@ public class Agent
 			o = gen.nextInt(2);
 			System.out.println("vertical sub x = " + x + "\n");
 			System.out.println("vertical sub y = " + y + "\n");
-			g.addSubmarine(x,y, (o == 0));
+			g.addSubmarine(new Point(x, y), (o == 0));
 			
 			x = gen.nextInt(10);
 			y = gen.nextInt(10);
 			o = gen.nextInt(2);		
 			System.out.println("vertical battle x = " + x + "\n");
 			System.out.println("vertical battle y = " + y + "\n");
-			g.addBattleship(x,y, (o == 0));
+			g.addBattleship(new Point(x, y), (o == 0));
 		
 			x = gen.nextInt(10);
 			y = gen.nextInt(10);
 			o = gen.nextInt(2);				
 			System.out.println("vertical air x = " + x + "\n");
 			System.out.println("vertical air y = " + y + "\n");
-			g.addAircraftCarrier(x,y, (o == 0));
+			g.addAircraftCarrier(new Point(x, y), (o == 0));
 			
 			x = gen.nextInt(10);
 			y = gen.nextInt(10);
 			o = gen.nextInt(2);				
 			System.out.println("vertical mine x = " + x + "\n");
 			System.out.println("vertical mine y = " + y + "\n");
-			g.addMinesweeper(x,y, (o == 0));
+			g.addMinesweeper(new Point(x, y), (o == 0));
 	
 			x = gen.nextInt(10);
 			y = gen.nextInt(10);
 			o = gen.nextInt(2);
 			System.out.println("horizontal dest x = " + x + "\n");
 			System.out.println("horizontal dest y = " + y + "\n");
-			g.addDestroyer(x,y, (o == 0));
-
+			g.addDestroyer(new Point(x, y), (o == 0));
 		}
 		
 		System.out.println("agent grid");

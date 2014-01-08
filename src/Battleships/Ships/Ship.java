@@ -1,11 +1,39 @@
 package Battleships.Ships;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 public class Ship {
 	private String name; 
 	private int gridValue;
 	private int numSegments;
 	private int intactSegments;
 	private boolean isHorizontal;
+	
+	private Point startingPosition;
+	
+	public Ship(Point p){
+		startingPosition = p;
+	}
+	
+	public ArrayList<Point> getShipPositionsList(){
+		ArrayList<Point> result = new ArrayList<Point>();
+		
+    	int i = startingPosition.x;
+    	int j = startingPosition.y;
+    	
+    	for(int dx=0; dx<numSegments; dx++){
+    		if(isHorizontal){
+    			j = startingPosition.y + dx;
+    		}else {
+    			i = startingPosition.x + dx;
+    		}  
+    		
+    		result.add(new Point(i, j));
+    	}
+		
+		return result;
+	}
 	
 	public boolean isSunk(){
 		return (intactSegments == 0);

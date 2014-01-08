@@ -1,8 +1,10 @@
 package Battleships.Ships;
 
+import java.awt.Point;
+
 public class ShipCreator {
-	public static Ship createAircraftCarrier(){
-		Ship ship = new Ship();
+	public static Ship createAircraftCarrier(Point p){
+		Ship ship = new Ship(p);
 		
 		ship.setName("Aircraft Carrier");
 		ship.setGridValue(5);
@@ -12,8 +14,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static Ship createBattleship(){
-		Ship ship = new Ship();
+	public static Ship createBattleship(Point p){
+		Ship ship = new Ship(p);
 		
 		ship.setName("Battleship");
 		ship.setGridValue(4);
@@ -23,8 +25,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static Ship createDestroyer(){
-		Ship ship = new Ship();
+	public static Ship createDestroyer(Point p){
+		Ship ship = new Ship(p);
 		
 		ship.setName("Destroyer");
 		ship.setGridValue(7);
@@ -34,8 +36,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static Ship createMinesweeper(){
-		Ship ship = new Ship();
+	public static Ship createMinesweeper(Point p){
+		Ship ship = new Ship(p);
 		
 		ship.setName("Minesweeper");
 		ship.setGridValue(2);
@@ -45,8 +47,8 @@ public class ShipCreator {
 		return ship;
 	}
 	
-	public static Ship createSubmarine(){
-		Ship ship = new Ship();
+	public static Ship createSubmarine(Point p){
+		Ship ship = new Ship(p);
 		
 		ship.setName("Submarine");
 		ship.setGridValue(3);

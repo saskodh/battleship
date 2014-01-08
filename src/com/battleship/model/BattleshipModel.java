@@ -37,12 +37,12 @@ public class BattleshipModel {
 		agent = new Agent();
 		
 		state = GameState.DEPLOY;
-		
+
 		this.view = view;
 	}
 	
 	public boolean placeAircraft(Point position, boolean isHorizontal) {		
-		boolean valid = playerHomeGrid.addAircraftCarrier(position.x, position.y, isHorizontal);
+		boolean valid = playerHomeGrid.addAircraftCarrier(position, isHorizontal);
 
 		if(valid) {	
 			view.placeAircraftCarrier(position, isHorizontal);
@@ -58,7 +58,7 @@ public class BattleshipModel {
 	}	
 	
 	public boolean placeBattleship(Point position, boolean isHorizontal) {
-		boolean valid = playerHomeGrid.addBattleship(position.x, position.y, isHorizontal);
+		boolean valid = playerHomeGrid.addBattleship(position, isHorizontal);
 
 		if(valid) {	
 			view.placeBattleship(position, isHorizontal);
@@ -74,7 +74,7 @@ public class BattleshipModel {
 	}	
 	
 	public boolean placeDestroyer(Point position, boolean isHorizontal)	{
-		boolean valid = playerHomeGrid.addDestroyer(position.x, position.y, isHorizontal);
+		boolean valid = playerHomeGrid.addDestroyer(position, isHorizontal);
 
 		if(valid) {	
 			view.placeDestroyer(position, isHorizontal);
@@ -90,7 +90,7 @@ public class BattleshipModel {
 	}
 	
 	public boolean placeSubmarine(Point position, boolean isHorizontal)	{
-		boolean valid = playerHomeGrid.addSubmarine(position.x, position.y, isHorizontal);
+		boolean valid = playerHomeGrid.addSubmarine(position, isHorizontal);
 
 		if(valid) {	
 			view.placeSubmarine(position, isHorizontal);
@@ -106,7 +106,7 @@ public class BattleshipModel {
 	}		
 	
 	public boolean placeMinesweeper(Point position, boolean isHorizontal) {
-		boolean valid = playerHomeGrid.addMinesweeper(position.x, position.y, isHorizontal);
+		boolean valid = playerHomeGrid.addMinesweeper(position, isHorizontal);
 
 		if(valid) {	
 			view.placeMinesweeper(position, isHorizontal);
@@ -155,6 +155,14 @@ public class BattleshipModel {
 			if(isHit){
 				agentAttackGrid.addHit(pos.x, pos.y);			
 				influenceMap.hit(pos.x, pos.y);
+				
+				//TODO: check if the hit sunked one of the ships,
+				// 		if true call influenceMap.setSunk(i,j) for all his fields on the map
+//				if(playerHomeGrid.lastShotSunkedShip()){
+//					for(Point p : playerHomeGrid.getLastSunkedShipPositions()){
+//						influenceMap.sunk(p.x, p.y);
+//					}
+//				}
 				
 				view.showUserMessage("Agent Has Hit One Of your ships! Agent's Turn again");
 				

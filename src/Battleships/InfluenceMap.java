@@ -11,8 +11,6 @@ import java.util.ArrayList;
 public class InfluenceMap implements Serializable
 {
 	private int[][] map;
-
-	private int maxI, maxJ;
 	
 	private int hit = 9;
 
@@ -27,12 +25,6 @@ public class InfluenceMap implements Serializable
 			for (int b = 0; b < 10; b++)
 				map[a][b] = 0;
 	}
-	/**
-		Gets the grid value at @param i, @param j
-	
-		@returns the value of cell at the specified parameter
-	*/
-	
 	
 	/**
 		This method is used sets an element to a value on the influence map
@@ -67,8 +59,6 @@ public class InfluenceMap implements Serializable
 			for (int j = 0; j<10; j++) {
 				if(map[i][j]>= maxVal && map[i][j]!= hit){				
 					maxVal= map[i][j];
-					maxI = i;
-					maxJ = j;
 				}
 			}
 		}
@@ -76,45 +66,7 @@ public class InfluenceMap implements Serializable
 		return maxVal;
 	}
 
-	/**
-		Returns the number of cells on the influence map that have the maximum influence value.	
-	*/
-	public int getNumberOfHotspots() {
-		int hs = 0;
-		int maxVal = getMaxHotspotVal();
-		
-		for(int i = 0; i<10; i++)
-			for (int j = 0; j<10; j++)			
-				if((map[i][j] == maxVal) && (map[i][j]!=0))
-					 hs++;
-		
-		return hs;
-	}
-
 	/**Returns an int array containing the hotspots*/
-	public int[] getIntHotspots()
-	{
-		int maxVal = getMaxHotspotVal();
-		int hsNum =	this.getNumberOfHotspots();
-		int[] refs= new int[hsNum*2];
-		//if(num > this.getNumberOfHotspots())
-		//	throw new IllegalArgumentException("too many hotspots");
-		int ref1=0;
-		int ref2=1;
-		for(int i = 0; i<10; i++) {	
-			for (int j = 0; j<10; j++) {
-				if(map[i][j]== maxVal) {
-					refs[ref1]=i;
-					refs[ref2]=j;
-					
-					ref1=ref1+2;
-					ref2=ref2+2;
-				}			
-			}
-		}
-		return refs;
-	}
-	
 	public ArrayList<Point> getHotspots(){
 		ArrayList<Point> result = new ArrayList<Point>();
 		
@@ -228,308 +180,6 @@ public class InfluenceMap implements Serializable
 		}
 	}
 	
-
-	public void sunkk(int i, int j)
-	{
-		if(map[i][j]==hit)
-		{
-		
-		//if the hit is not on an edge
-		if(i<9 && i>0 && j<9 && j>0)
-		{
-			
-			//dec above if odd
-			if(map[i-1][j]!= hit && map[i-1][j]%2==1)
-			{
-				//if(map[i-1][j]==13)
-				map[i-1][j]= map[i-1][j] -9;
-			}
-			
-			//dec above if even
-			if(map[i-1][j]!= hit && map[i-1][j]%2==0)
-			{
-				map[i-1][j]= map[i-1][j] -2;
-			}
-		
-			//dec below if odd
-			if(map[i+1][j]!= hit && map[i+1][j]%2==1)
-			{
-				map[i+1][j]= map[i+1][j] -9;
-			}
-			
-			//dec below if even
-			if(map[i+1][j]!= hit && map[i+1][j]%2==0)
-			{
-				map[i+1][j]= map[i+1][j] -2;
-			}
-			
-			//dec left if even
-			if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-			{
-				map[i][j-1]= map[i][j-1] -4;
-			}
-			
-			//dec left if odd
-			if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-			{
-				map[i][j-1]= map[i][j-1] -9;
-			}
-			
-			//dec right if even
-			if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-			{
-				map[i][j+1]= map[i][j+1] -4;
-			}
-			
-			//dec right if odd
-			if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-			{
-				map[i][j+1]= map[i][j+1] -9;
-			}
-		}
-		
-		
-		//if hit is on left collumn but not top left or bottom left
-		if(j==0 && i!= 0 && i != 9) 			
-		{
-			//dec to right if even
-			if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-			{
-				map[i][j+1]= map[i][j+1] -4;
-			}
-			
-			//dec to right if odd
-			if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-			{
-				map[i][j+1]= map[i][j+1] -9;//4
-			}
-			
-			if(i!=0 && i!=9)
-			{
-				//dec above if even
-				if(map[i-1][j]!= hit &&map[i-1][j]%2==0)
-				{
-					map[i-1][j]= map[i-1][j] -2;
-				}
-				
-				//dec above if odd
-				if(map[i-1][j]!= hit &&map[i-1][j]%2==1)
-				{
-					map[i-1][j]= map[i-1][j] -9; //-2
-				}
-				
-				//dec below of even
-				if(map[i+1][j]!= hit && map[i+1][j]%2==0)
-				{
-					map[i+1][j]= map[i+1][j] -2;
-				}
-				
-				//dec below of odd
-				if(map[i+1][j]!= hit && map[i+1][j]%2==1)
-				{
-					map[i+1][j]= map[i+1][j] -9; //-2
-				}
-			}
-		}
-		
-		//if hit is on right most column but not top right or bottom right
-		if(j==9 && i!= 0 && i != 9) 			
-		{
-			//dec to left if even
-			if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-			{
-				map[i][j-1]= map[i][j-1] -4;
-			}
-			
-			//dec to left if odd
-			if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-			{
-				map[i][j-1]= map[i][j-1] -9;
-			}
-			
-			
-			if(i!=0 && i!=9)
-			{
-				//dec above if even
-				if(map[i-1][j]!= hit && map[i-1][j]%2==0)
-				{
-					map[i-1][j]= map[i-1][j] -2;
-				}
-				
-				//dec above if odd
-				if(map[i-1][j]!= hit && map[i-1][j]%2==1)
-				{
-					map[i-1][j]= map[i-1][j] -9;
-				}
-				
-				//dec below if even
-				if(map[i+1][j]!= hit && map[i+1][j]%2==0)
-				{
-					map[i+1][j]= map[i+1][j] -2;
-				}
-				
-				//dec below if odd
-				if(map[i+1][j]!= hit && map[i+1][j]%2==1)
-				{
-					map[i+1][j]= map[i+1][j] -9;
-				}
-			}
-		}
-		
-		//if hit on bottom row
-		if(i==9) 			
-		{
-			//dec above if even
-			if(map[i-1][j]!= hit && map[i-1][j]%2==0)
-			{
-				map[i-1][j]= map[i-1][j] -2;
-			}
-			
-			//dec above if odd
-			if(map[i-1][j]!= hit && map[i-1][j]%2==1)
-			{
-				map[i-1][j]= map[i-1][j] -9;
-			}
-			
-			if(j!=0 && j!=9)
-			{
-				//dec right if even
-				if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-				{
-					map[i][j+1]= map[i][j+1] -4;
-				}
-				
-				//dec right if odd
-				if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-				{
-					map[i][j+1]= map[i][j+1] -9;
-				}
-				
-				//dec left if even
-				if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-				{
-					map[i][j-1]= map[i][j-1] -4;
-				}
-				
-				//dec left if odd
-				if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-				{
-					map[i][j-1]= map[i][j-1] -9;
-				}
-			}
-			
-			//if in bottom left corner
-			if(j==0)
-			{
-				//dec right if even
-				if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-				{
-					map[i][j+1] = map[i][j+1] -4;
-				}
-				
-				//dec right if odd
-				if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-				{
-					map[i][j+1] = map[i][j+1] -9;
-				}
-			}
-			//if in bottom right corner
-			if(j==9)
-			{
-				//dec left if even
-				if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-				{
-					map[i][j-1] = map[i][j-1] -4;
-				}
-				
-				//dec left if odd
-				if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-				{
-					map[i][j-1] = map[i][j-1] -9;
-				}
-			}
-		}	
-		//if hit is on top row
-		if(i==0) 			
-		{
-			//dec below if even
-			if(map[i+1][j]!= hit && map[i+1][j]%2==0)
-			{
-				map[i+1][j] = map[i+1][j] -2;
-			}
-			
-			//dec below if odd
-			if(map[i+1][j]!= hit && map[i+1][j]%2==1)
-			{
-				map[i+1][j] = map[i+1][j] -9;
-			}
-			
-			if(j!=0 && j!=9)
-			{
-				//dec right if even
-				if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-				{
-					map[i][j+1] = map[i][j+1] -4;
-				}
-				
-				//dec right if odd
-				if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-				{
-					map[i][j+1] = map[i][j+1] -9;
-				}
-				
-				//dec left if even
-				if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-				{
-					map[i][j-1] = map[i][j-1] -4;
-				}
-				
-				//dec left if odd
-				if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-				{
-					map[i][j-1] = map[i][j-1] -9;
-				}
-			}
-			
-			//if in top left corner
-			if(j==0)
-			{
-				//dec right if even
-				if(map[i][j+1]!= hit && map[i][j+1]%2==0)
-				{
-					map[i][j+1] = map[i][j+1] -4;
-				}
-				
-				//dec right if odd
-				if(map[i][j+1]!= hit && map[i][j+1]%2==1)
-				{
-					map[i][j+1] = map[i][j+1] -9;
-				}
-			}
-			//if in top right corner
-			if(j==9)
-			{
-				//dec left if even
-				if(map[i][j-1]!= hit && map[i][j-1]%2==0)
-				{
-					map[i][j-1] = map[i][j-1] -4;
-				}
-				
-				//dec left if odd
-				if(map[i][j-1]!= hit && map[i][j-1]%2==1)
-				{
-					map[i][j-1] = map[i][j-1] -9;
-				}
-			}
-		}
-	
-		
-		
-		
-		}
-	}			
-	
-
 	/**
 		Marks on the influence map where a miss is.
 	*/
@@ -817,21 +467,7 @@ public class InfluenceMap implements Serializable
 		
 		}	
 	}
-	
-	/**
-		Returns the j of the cell with the highest influence value
-	*/
-	public int getHotspotJ() {
-		return maxJ;			
-	}
 
-	/**
-		Returns the i of the cell with the highest influence value
-	*/	
-	public int getHotspotI() {
-		return maxI;			
-	}	
-	
 	/**Adds two influence maps objects together by summing their elements */
 	public void addMap(InfluenceMap i){
 		for(int x = 0; x <10; x++) {
@@ -854,11 +490,6 @@ public class InfluenceMap implements Serializable
 				map[i][j] = 0;
 	}
 				
-	/**
-		Creates a string representation of the influence map	
-		@return the string representation
-	*/
-	
 	public String toString() {
 		String r = "";
 		for (int i = 0; i < 10; i++) //change these to ROWS to use the default
