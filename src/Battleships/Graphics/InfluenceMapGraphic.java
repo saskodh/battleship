@@ -159,9 +159,7 @@ public class InfluenceMapGraphic
 			}
 			
 			//g.setColor(mapVal);
-			g.fillRect(xLeft, yTop, 20, 20);
-			
-			
+			g.fillRect(xLeft, yTop, 20, 20);			
 			
 		}
 		

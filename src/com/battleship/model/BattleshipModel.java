@@ -124,23 +124,23 @@ public class BattleshipModel {
 	
 	public void acceptPlayerShot(Point pos) {
 		
-		if(!playerAttackGrid.isEmpty(pos.x, pos.y))
-			return;
+		if(playerAttackGrid.isEmpty(pos.x, pos.y)){
 		
-		boolean isHit = agentHomeGrid.shot(pos.x, pos.y);
-		if(isHit){
-			playerAttackGrid.addHit(pos.x, pos.y);
-			view.showUserMessage("HIT! Have Another Turn!");				
-			
-			checkPlayerWon();
-		}else {
-			playerAttackGrid.addMiss(pos.x, pos.y);
-			view.showUserMessage("Miss. Agent's Turn");
-			
-			state = GameState.AGENT_TURN;
+			boolean isHit = agentHomeGrid.shot(pos.x, pos.y);
+			if(isHit){
+				playerAttackGrid.addHit(pos.x, pos.y);
+				view.showUserMessage("HIT! Have Another Turn!");				
+				
+				checkPlayerWon();
+			}else {
+				playerAttackGrid.addMiss(pos.x, pos.y);
+				view.showUserMessage("Miss. Agent's Turn");
+				
+				state = GameState.AGENT_TURN;
+			}
+	
+			view.placeAttackMove(pos, isHit);
 		}
-
-		view.placeAttackMove(pos, isHit);
 		
 		if(state == GameState.AGENT_TURN && agent != null){
 			autoAgentTurn();
@@ -149,38 +149,37 @@ public class BattleshipModel {
 	
 	public void acceptAgentShot(Point pos){
 		
-		if(!agentAttackGrid.isEmpty(pos.x, pos.y))
-			return;
+		if(agentAttackGrid.isEmpty(pos.x, pos.y)){			
 		
-		boolean isHit = playerHomeGrid.shot(pos.x, pos.y);
-		if(isHit){
-			agentAttackGrid.addHit(pos.x, pos.y);			
-			influenceMap.hit(pos.x, pos.y);
-			
-			view.showUserMessage("Agent has hit");
-			
-			checkAgentWon();
-		}else {
-			agentAttackGrid.addMiss(pos.x, pos.y);
-			influenceMap.miss(pos.x, pos.y);
-
-			view.showUserMessage("Agent Has Missed. Player's Turn");
-			
-			state = GameState.PLAYER_TURN;
-			//view.showUserMessage("Player turn, take a shot");
+			boolean isHit = playerHomeGrid.shot(pos.x, pos.y);
+			if(isHit){
+				agentAttackGrid.addHit(pos.x, pos.y);			
+				influenceMap.hit(pos.x, pos.y);
+				
+				view.showUserMessage("Agent Has Hit One Of your ships! Agent's Turn again");
+				
+				checkAgentWon();
+			}else {
+				agentAttackGrid.addMiss(pos.x, pos.y);
+				influenceMap.miss(pos.x, pos.y);
+	
+				view.showUserMessage("Agent Has Missed. Player's Turn");
+				
+				state = GameState.PLAYER_TURN;
+				//view.showUserMessage("Player turn, take a shot");
+			}
+	
+			view.placeHomeMove(pos, isHit);
+			view.updateInfluenceMap(influenceMap);
 		}
-
-		view.placeHomeMove(pos, isHit);
-		view.updateInfluenceMap(influenceMap);
 		
 		if(state == GameState.AGENT_TURN && agent != null){
 			autoAgentTurn();
 		}
 	}
 
-	private void autoAgentTurn(){
-		agent.nextShot(influenceMap, agentAttackGrid);
-		
+	private void autoAgentTurn(){		
+		//TODO: Bug: acceptAgentShot call is put on the stack while the thread is sleeping
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -188,10 +187,11 @@ public class BattleshipModel {
 			e.printStackTrace();
 		}
 		
-		acceptAgentShot(new Point(agent.getI(), agent.getJ()));
+		Point p = agent.nextShot(influenceMap, agentAttackGrid);
+		acceptAgentShot(p);
 		
-		System.out.println("shot at " + agent.getI() + " " +agent.getJ());
-		System.out.println(agentAttackGrid.toString());
+		System.out.println("shot at " + p.x + " " + p.y);
+		//System.out.println(agentAttackGrid.toString());
 	}
 	
 	private void checkGameCanBegin(){

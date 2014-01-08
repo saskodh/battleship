@@ -5,31 +5,27 @@ package Battleships;
  * Modified: 12 February 2005 14:57:34
  */
 
+import java.awt.Point;
 import java.io.Serializable; 
+import java.util.ArrayList;
 public class InfluenceMap implements Serializable
 {
 	private int[][] map;
-	private int maxVal=0;
-	private int HotSpots = 0;
-	private int turns = 9999;
+
+	private int maxI, maxJ;
 	
 	private int hit = 9;
-		
-		
-	String coOrds = "";
 
 	/**
 		Creates an influence map from a two dimensional array as a 10 by 10 cells.
 		All cell values are set to 0
 	*/
-	public InfluenceMap()
-	{
+	public InfluenceMap() {
 		map = new int[10][10];
 			
-			for (int a = 0; a< 10; a++)
+		for (int a = 0; a< 10; a++)
 			for (int b = 0; b < 10; b++)
 				map[a][b] = 0;
-		turns = 9999;
 	}
 	/**
 		Gets the grid value at @param i, @param j
@@ -45,8 +41,7 @@ public class InfluenceMap implements Serializable
 		@param j the column index
 		@param value the value of the square 
 	*/
-	public void set(int i, int j, int value)
-	{
+	public void set(int i, int j, int value) {
 		if(i > 10 || j > 10)
 			throw new IllegalArgumentException("Number is bigger that the grid size");
 		if(i < 0 || j < 0) 
@@ -54,8 +49,7 @@ public class InfluenceMap implements Serializable
 		map[i][j] = value;
 	}
 
-	public int getVal(int i, int j)
-	{
+	public int getVal(int i, int j)	{
 		if(i < 0 || j < 0)
 			throw new IllegalArgumentException("Number cannot be negative");
 		if(i > 10 || j > 10)
@@ -67,146 +61,78 @@ public class InfluenceMap implements Serializable
 		Returns value of the cell or cells with the highest number on the influence map.
 	
 	*/
-	public int getMaxHotspotVal()
-	{
-		maxVal= 0;
-		for(int i = 0; i<10; i++)
-		{	
-			for (int j = 0; j<10; j++)
-			{
-				if(map[i][j]>= maxVal && map[i][j]!= hit)
-				
+	private int getMaxHotspotVal() {
+		int maxVal= 0;
+		for(int i = 0; i<10; i++) {	
+			for (int j = 0; j<10; j++) {
+				if(map[i][j]>= maxVal && map[i][j]!= hit){				
 					maxVal= map[i][j];
+					maxI = i;
+					maxJ = j;
+				}
 			}
 		}
 		
 		return maxVal;
 	}
-	/*
-	/**Sets three hits consequtive emanating from the last hit element to sunk ship *
-	public void subSunk(int i, int j)
-	{
-		try
-		{	//if two consequitive elements to the west are hits, set them all to sunk
-				if(map[i+1][j] ==hit &&map[i+2][j] ==hit)
-				{
-					map[i+1][j] = map[i+1][j] + 3;
-				}
-			
-			// if western was also a hit then increment eastern by 15
-				if(map[i+1][j] ==hit)
-				{
-					map[i-1][j] = map[i-1][j] + 15;
-				}
-			}
-	}
-		
-	*/
+
 	/**
-		Returns the number of cells on the influence map that have the maximum influence value.
-	
+		Returns the number of cells on the influence map that have the maximum influence value.	
 	*/
-	public int getNumberOfHotspots()	
-		
-	{
+	public int getNumberOfHotspots() {
 		int hs = 0;
+		int maxVal = getMaxHotspotVal();
+		
 		for(int i = 0; i<10; i++)
-		{	
-			for (int j = 0; j<10; j++)
-			
-				if((map[i][j] == this.getMaxHotspotVal())&& (map[i][j]!=hit)&& (map[i][j]!=0))
-				{
+			for (int j = 0; j<10; j++)			
+				if((map[i][j] == maxVal) && (map[i][j]!=0))
 					 hs++;
-				}
-			
-		}
-	
 		
 		return hs;
 	}
-	/**
-		Returns all the hotspot references as a single concatonated string,
-		If there is only one hotspot only i and j will be returned. If there are 
-		x hotspots then an i and j reference pair will be returned for each hotspot.
-	*/
-	public String getHotspots()
-	{
-		
-		//if(num > this.getNumberOfHotspots())
-		//	throw new IllegalArgumentException("too many hotspots");
-		//concatanates the references of the hotspots into a string
-		for(int i = 0; i<10; i++)
-		{	
-			for (int j = 0; j<10; j++)
-			{
-				if(map[i][j]== maxVal)
-				
-				coOrds = coOrds + i + j;	
-			}
-		}
-		return coOrds;
-	}
+
 	/**Returns an int array containing the hotspots*/
 	public int[] getIntHotspots()
 	{
+		int maxVal = getMaxHotspotVal();
 		int hsNum =	this.getNumberOfHotspots();
 		int[] refs= new int[hsNum*2];
 		//if(num > this.getNumberOfHotspots())
 		//	throw new IllegalArgumentException("too many hotspots");
 		int ref1=0;
 		int ref2=1;
-		for(int i = 0; i<10; i++)
-		{	
-			for (int j = 0; j<10; j++)
-			{
-				if(map[i][j]== maxVal)
-				{
-					for(int x =0; x < hsNum; x++)
-					{
-						refs[ref1]=i;
-						refs[ref2]=j;
-					}
-				ref1=ref1+2;
-				ref2=ref2+2;
-				}
-			
+		for(int i = 0; i<10; i++) {	
+			for (int j = 0; j<10; j++) {
+				if(map[i][j]== maxVal) {
+					refs[ref1]=i;
+					refs[ref2]=j;
+					
+					ref1=ref1+2;
+					ref2=ref2+2;
+				}			
 			}
 		}
 		return refs;
 	}
-	/** Returns the number of turns that this influence map took to achieve a win condition
-	Defaults to 9999 if the Influence map is new and untested or if it hasn't won yet.
-	*/
-	public int getTurns()
-	{ 
-		return turns;
+	
+	public ArrayList<Point> getHotspots(){
+		ArrayList<Point> result = new ArrayList<Point>();
+		
+		int maxVal = getMaxHotspotVal();
+		
+		if(maxVal == 0)
+			return result;
+		
+		for(int i = 0; i<10; i++) {	
+			for (int j = 0; j<10; j++) {
+				if(map[i][j] == maxVal) {
+					result.add(new Point(i, j));
+				}			
+			}
+		}		
+		
+		return result;
 	}
-	/** Sets the Number of tunrs that an influence map object took to win a game*/
-	public void setTurns(int t)
-	{
-		turns = t;
-	}
-	
-	/*
-	public int getHSref
-	
-		String pair1 = "";
-		
-		int pairs = (this.getNumberOfHotspots())*2;
-			
-		int sub1 = 0;
-		int sub2 = 0;
-		
-		pair1 =	coOrds.substring(0,1);
-		
-		refs[0][0]
-		int subPair1 = 0;
-		int subPair2 = 0;
-		
-		
-		*/
-	
-
 	
 	/**
 		Increases the value of the specified cell's northern, southern, eastern and western
@@ -214,90 +140,96 @@ public class InfluenceMap implements Serializable
 		any cells who's value is already 9. If it is the second consquetive hit in a row or column the next element in that sequence 
 		will be weighted to an even higher value
 	*/
-	public void hit(int i, int j)
-	{
-		if(map[i][j] == hit)
-		{
-			//throw new IllegalArgumentException("Hit already taken");
-		}
+	public void hit(int i, int j) {
+		
 		map[i][j] =hit;
 		
-		try
-		{	//if southern is not a hit, increament it
-				if(map[i+1][j] !=hit)
-				{
-					map[i+1][j] = map[i+1][j] + 2;
-				}
-				
-				// if southern was also a hit and the northern isn't then increment eastern by 5
-				if(map[i+1][j] ==hit && map[i-1][j] != hit)
-				{
-					map[i-1][j] = map[i-1][j] + 11;
-				}
-		
+		try	{	
+			//if southern is not a hit, increment it
+			if(map[i+1][j] !=hit)
+			{
+				map[i+1][j] = map[i+1][j] + 2;
 			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-		
-		try
-		{		//if northern is not a hit, increament it
-				if(map[i-1][j] !=hit)
-				{
-					map[i-1][j] = map[i-1][j] + 2;
-				}
-				
-				// if northern is a hit and southern isn't then increment southern by 8
-				if(map[i-1][j] ==hit && map[i+1][j] !=hit)
-				{
-					map[i+1][j] = map[i+1][j] + 11;
-				}
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
 			
-		try
-		{	//if eastern is not a hit, increment it
-				if(map[i][j+1] !=hit)
+			// if southern was also a hit and the northern isn't then increment eastern by 5
+			if(map[i+1][j] ==hit && map[i-1][j] != hit)
+			{
+				map[i-1][j] = map[i-1][j] + 11;
+			}
+			
+			//if northern is not a hit, increament it
+			if(map[i-1][j] !=hit)
+			{
+				map[i-1][j] = map[i-1][j] + 2;
+			}
+			
+			// if northern is a hit and southern isn't then increment southern by 8
+			if(map[i-1][j] ==hit && map[i+1][j] !=hit)
+			{
+				map[i+1][j] = map[i+1][j] + 11;
+			}
+			
+			//if eastern is not a hit, increment it
+			if(map[i][j+1] !=hit)
 				map[i][j+1] = map[i][j+1] + 4;
-
-				//if eastern is a hit, and western isn't increment western by 11
-				if(map[i][j+1] ==hit && map[i][j-1]!= hit)
-				{
-					map[i][j-1] = map[i][j-1] + 11;
-				}
+			
+			//if eastern is a hit, and western isn't increment western by 11
+			if(map[i][j+1] ==hit && map[i][j-1]!= hit)
+			{
+				map[i][j-1] = map[i][j-1] + 11;
 			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
 
-		try
-		{ // western is not a hit increment it
-				if(map[i][j-1] !=hit)
-				map[i][j-1] = map[i][j-1] + 4;
-		
-		
-			 // western is a hit and eastern isn't increment eastern by 8
-				if(map[i][j-1] ==hit && map[i][j+1] !=hit)
-				{
-					map[i][j+1] = map[i][j+1] + 11;
-				}
+			// western is not a hit increment it
+			if(map[i][j-1] !=hit)
+				map[i][j-1] = map[i][j-1] + 4;			
+			
+			// western is a hit and eastern isn't increment eastern by 8
+			if(map[i][j-1] ==hit && map[i][j+1] !=hit)
+			{
+				map[i][j+1] = map[i][j+1] + 11;
 			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
+		} catch (ArrayIndexOutOfBoundsException e) {
 			// do nothing
 		}
 	}	
 	
-	public void sunk(int i, int j)
+	public void sunk(int i, int j){
+		
+		if(map[i][j] != hit)
+			return;
+		
+		int[] dx = new int[]{-1, 1, 0, 0};
+		int[] dy = new int[]{0, 0, -1, 1};
+		int ii, jj;
+		
+		int k;
+		for(k=0; k<dx.length; k++){
+			ii = i+dx[k];
+			jj = j+dy[k];
+			
+			try{
+				if(map[ii][jj] != hit){
+					if(map[ii][jj] % 2 == 1){
+						//if odd
+						map[ii][jj] -= 9;
+					}else {
+						if(k<2){
+							//above and below for -2
+							map[ii][jj] = map[ii][jj] - 2;
+						}else {
+							//left and right for -4
+							map[ii][jj] = map[ii][jj] - 4;					
+						}						
+					}
+				}
+			} catch(Exception e){
+				//e.printStackTrace();
+			}
+		}
+	}
+	
+
+	public void sunkk(int i, int j)
 	{
 		if(map[i][j]==hit)
 		{
@@ -597,6 +529,7 @@ public class InfluenceMap implements Serializable
 		}
 	}			
 	
+
 	/**
 		Marks on the influence map where a miss is.
 	*/
@@ -848,298 +781,74 @@ public class InfluenceMap implements Serializable
 
 	}
 	
-	public void searchDeadends()
-	{
+	public void searchDeadends() {
 		for (int a = 0; a< 10; a++)
 			for (int b = 0; b < 10; b++)
-				this.setDeadends(a,b);
-		
+				setDeadends(a,b);		
 	}
-		
-	
-	public void setDeadends(int i, int j)
-	{
-		int Dave;
-		boolean done = false;
-		
-		//enters statement if it is in a corner
-		//top left corner
-		
-		//while (!done)
-		//{
-		
+			
+	private void setDeadends(int i, int j) {
+
 		if(map[i][j]!=-5)
 		{
-			if(i==0&&j==0)
-			{
-				if(((!done)&&(map[i+1][j]==-9)&&(map[i][j+1]==-9)))
-				{
+			if(i==0 && j==0)
+				if((map[i+1][j]==-9)&&(map[i][j+1]==-9))	
 					map[i][j]=-7;
-					done=true;
-				
-				}
-			}
+
 	
-		// enters statement if it is in a corner
-		//top right corner
-		
+			// enters statement if it is in a corner
+			//top right corner		
 			if((i==0)&&(j==9))
-			{	
-				if((!(done)&&(map[i+1][j]==-9)&&(map[i][j-1]==-9)))
-				{
+				if((map[i+1][j]==-9)&&(map[i][j-1]==-9))				
 					map[i][j]=-7;
-					done=true;
-				
-				}
-			}
+
 		
-		
-		// enters statement if it is in a corner
-		//bottom left corner
-		
-			if((i==9)&&(j==0))
-			{	
-				if((!(done)&&(map[i-1][j]==-9)&&(map[i][j+1]==-9)))
-				{
+			// enters statement if it is in a corner
+			//bottom left corner		
+			if((i==9)&&(j==0))			
+				if((map[i-1][j]==-9)&&(map[i][j+1]==-9))				
 					map[i][j]=-7;
-					done=true;
-				
-				}
-			}
-				
-		// enters statement if it is in a corner
-		//bottom right corner
-		
-			if((i==9)&&(j==9))
-			{	
-				if((!(done)&&(map[i-1][j]==-9)&&(map[i][j-1]==-9)))
-				{
+
+			// enters statement if it is in a corner
+			//bottom right corner		
+			if((i==9)&&(j==9))			
+				if((map[i-1][j]==-9)&&(map[i][j-1]==-9))				
 					map[i][j]=-7;
-					done=true;
-				
-				}
-			}		
 		
-		
-		//attempts to throw an ArrayIndexOutOfBoundsException, this will mean the square is at an edge
-		//in this case the left edge
-			try
-			{
-				Dave = map[i][j-1];
-			}
-		
-		//checks around the Northern, Eastern and southern cells to check if they are all misses
-		//if they are it will reduce the influence map vlaue to the lowest possible value.
-		
-			catch (ArrayIndexOutOfBoundsException e)
-			{
-				if((i+1!=10)&&j+1!=10&&(i-1!=-1))
-				{
-					if(((!done)&&map[i+1][j]==-9)&&(map[i-1][j]==-9)&&(map[i][j+1]==-9))
-					{
-						map[i][j]=-7;
-						done=true;
-					}
-				}
-			}
-		
-		//attempts to throw an ArrayIndexOutOfBoundsException, this will mean the square is at an edge
-		//this is the right edge
-			try
-			{
-				Dave = map[i][j+1];
-			}
-		
-			catch (ArrayIndexOutOfBoundsException e)
-			{
-				if((i+1!=10)&&(i-1!=-1))
-				{
-					if(((!done)&&map[i+1][j]==-9)&&(map[i-1][j]==-9)&&(map[i][j-1]==-9))
-					{
-						map[i][j]=-7;
-						done=true;
-					}
-				}
-			}
-
-		//attempts to throw an ArrayIndexOutOfBoundsException, this will mean the square is at an edge
-		//this is the top edge		
-			try
-			{
-				Dave = map[i-1][j];
-			}
-		
-			catch (ArrayIndexOutOfBoundsException e)
-			{
-				if((i+1!=10)&&(j+1!=10))
-					{
-						if(((!done)&&map[i+1][j]==-9)&&(map[i][j+1]==-9)&&(map[i][j-1]==-9))
-						{
-							map[i][j]=-7;
-							done=true;
-						}
-					}
-			}
-		//attempts to throw an ArrayIndexOutOfBoundsException, this will mean the square is at an edge
-		//bottom edge
-			try
-			{
-				Dave = map[i+1][j];
-			}
-		
-			catch (ArrayIndexOutOfBoundsException e)
-			{
-			
-				if((i+1!=10)&&(j+1!=10))
-				{
-					if(((!done)&&map[i-1][j]==-9)&&(map[i][j+1]==-9)&&(map[i][j-1]==-9))
-					{
-						map[i][j]=-7;
-						done=true;
-					}
-				}
-			}		
-		
-		
+		}	
 	}
-	
-	
-	}
-	
-	
-	
-	
-	/**
-		Decreases the value of the specified cell's northern, southern, eastern and western
-		neighbour by one. The actual specified cell has it's value changed to -8
-	
-	public void cool(int i, int j)
-	{
-		map[i][j] = -8;
-		
-		try
-			{
-				map[i+1][j] = map[i+1][j] - 1;
-				
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-		
-		try
-			{
-				map[i-1][j] = map[i-1][j] - 1;
-			}	
-
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-				
-		try 
-			{
-				map[i][j+1] = map[i][j+1] - 1;
-			}	
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-				
-		try
-			{
-				map[i][j-1] = map[i][j-1] - 1;
-			}	
-				
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-	}
-	*/
-
 	
 	/**
 		Returns the j of the cell with the highest influence value
 	*/
-	public int getHotspotJ()
-	{
-		int x = 0;
-		int y = 0;	
-		int val = 0;
-		int ans = 0;
-		
-		for(int i = 0; i<10; i++)
-			for (int j = 0; j<10; j++)
-			{
-							
-				if(map[i][j]>val && map[i][j]!= hit)
-				{
-					val = map[i][j];
-					y = i;
-					x = j;
-				}
-			}
-		return x ;
-			
+	public int getHotspotJ() {
+		return maxJ;			
 	}
 
 	/**
 		Returns the i of the cell with the highest influence value
 	*/	
-	public int getHotspotI()
-	{
-		int x = 0;
-		int y = 0;	
-		int val = 0;
-		int ans = 0;
-		
-		for(int i = 0; i<10; i++)
-			for (int j = 0; j<10; j++)
-			{
-							
-				if(map[i][j]>val && map[i][j]!= hit)
-				{
-					val = map[i][j];
-					y = i;
-					x = j;
-				}
-			}
-		return y;
-			
-	}		
-		/**Adds two influence maps objects together by summing their elements */
-	public void addMap(InfluenceMap i)
-	{
-		for(int x = 0; x <10; x++)
-		{
-			for(int y = 0; y <10; y++)
-			{
-				if(map[x][y]>=hit)
-				{
+	public int getHotspotI() {
+		return maxI;			
+	}	
+	
+	/**Adds two influence maps objects together by summing their elements */
+	public void addMap(InfluenceMap i){
+		for(int x = 0; x <10; x++) {
+			for(int y = 0; y <10; y++) {
+				if(map[x][y]>=hit || i.getVal(x,y)>=hit)			
 					map[x][y]= map[x][y] + 5;
-				}
-				
-				else if(i.getVal(x,y)>=hit)
-				{
-					map[x][y] = map[x][y] +5;
-				}
-				else	
-				
+				else				
 					map[x][y] = map[x][y] + i.getVal(x,y);
 					
 			}
 		}
-	}
-	
+	}	
 	
 	/**
 		Sets all values in the influence map to 0
 	*/
-	public void clearAll()
-	{
+	public void clearAll() {
 		for (int i = 0; i <10; i++)
 			for (int j=0; j<10; j++)
 				map[i][j] = 0;
@@ -1150,12 +859,10 @@ public class InfluenceMap implements Serializable
 		@return the string representation
 	*/
 	
-	public String toString()
-	{
+	public String toString() {
 		String r = "";
 		for (int i = 0; i < 10; i++) //change these to ROWS to use the default
-		{
-			
+		{			
 			r = r + "|";
 			for (int j = 0; j < 10; j++)
 				r = r + map[i][j] ;
@@ -1165,63 +872,3 @@ public class InfluenceMap implements Serializable
 	}
 	
 }
-
-
-	/** old version does not include consequtive hits
-		Increases the value of the specified cell's northern, southern, eastern and western
-		neighbour by one. The actual specified cell has it's value changed to 8. This method will not alter 
-		any cells who's value is already 8
-	*
-	/*public void hit(int i, int j)
-	{
-		if(map[i][j] == hit)
-		{
-			//throw new IllegalArgumentException("Hit already taken");
-		}
-		map[i][j] =hit;;
-		
-		try
-			{
-				if(map[i+1][j] !=hit)
-				map[i+1][j] = map[i+1][j] + 3;
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-		
-		try
-			{
-				if(map[i-1][j] !=hit)
-				map[i-1][j] = map[i-1][j] + 3;
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-			
-		try
-			{	
-				if(map[i][j+1] !=hit)
-				map[i][j+1] = map[i][j+1] + 3;
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-
-		try
-			{
-				if(map[i][j-1] !=hit)
-				map[i][j-1] = map[i][j-1] + 3;
-			}
-		
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			// do nothing
-		}
-	}
-	*/
