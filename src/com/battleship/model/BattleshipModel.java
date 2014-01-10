@@ -158,11 +158,11 @@ public class BattleshipModel {
 				
 				//TODO: check if the hit sunked one of the ships,
 				// 		if true call influenceMap.setSunk(i,j) for all his fields on the map
-//				if(playerHomeGrid.lastShotSunkedShip()){
-//					for(Point p : playerHomeGrid.getLastSunkedShipPositions()){
-//						influenceMap.sunk(p.x, p.y);
-//					}
-//				}
+				if(playerHomeGrid.lastShotSunkedShip()){
+					for(Point p : playerHomeGrid.getLastSunkedShipPositions()){
+						influenceMap.sunk(p.x, p.y);
+					}
+				}
 				
 				view.showUserMessage("Agent Has Hit One Of your ships! Agent's Turn again");
 				
