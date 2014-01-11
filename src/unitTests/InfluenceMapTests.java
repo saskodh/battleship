@@ -7,9 +7,9 @@ import java.awt.Point;
 import org.junit.Before;
 import org.junit.Test;
 
-import Battleships.InfluenceMap;
-import Battleships.Ships.Ship;
-import Battleships.Ships.ShipCreator;
+import battleship.core.InfluenceMap;
+import battleship.core.Ship;
+import battleship.core.ShipCreator;
 
 public class InfluenceMapTests {
 	private InfluenceMap infMap;
